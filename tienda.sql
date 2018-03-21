@@ -46,7 +46,7 @@ INSERT INTO Usuarios (Nombre)
   VALUES ('beto');
 
 INSERT INTO Pedidos (ID_Pedido, ID_Usuario, Total, Iva, Sub_total)
-  VALUES (1, 1, 39.0, 6.0, 33.0);
+  VALUES (1, 1, 39.0, 6.0, 33.0), (2, 1, 39.0, 6.0, 33.0);
 
 INSERT INTO Entradas (ID_Pedido, ID_Producto, Cantidad, Importe)
   VALUES (1, 1, 2, 24.0), (1, 2, 1, 15.0);

@@ -172,12 +172,11 @@ function removeUsuario(req, res, next) {
 function getAllPedidos(req, res, next) {
   var usrID = parseInt(req.params.id);
   db.any('SELECT * from Pedidos where ID_Usuario=$1', usrID)
-    .then(function (result) {
+    .then(function (data) {
       /* jshint ignore:start */
       res.status(200)
         .json({
-          status: 'success',
-          message: `El producto ${result.rowCount} ha sido eliminado`
+          data
         });
       /* jshint ignore:end */
     })
@@ -187,17 +186,36 @@ function getAllPedidos(req, res, next) {
 }
 
 function getSinglePedido(req, res, next) {
-  var usrID = parseInt(req.params.id_usuario);
-  var usrID = parseInt(req.params.id_pedido);
-  db.one('SELECT * from Pedidos where ID_Usuario=$1 AND ID_Pedido=$1', usrID)
-    .then(function (result) {
-      /* jshint ignore:start */
-      res.status(200)
-        .json({
-          status: 'success',
-          message: `El producto ${result.rowCount} ha sido eliminado`
+  var usrID = parseInt(req.params.idusr);
+  var pedID = parseInt(req.params.idped);
+  var Productos = [];
+  db.one('SELECT ID_Pedido, Total, Iva, Sub_total from Pedidos where ID_Usuario=$1 AND ID_Pedido=$2', [usrID, pedID])
+    .then(function (data) {
+      db.any('SELECT ID_Producto as Prod, Cantidad, Importe from Entradas where ID_Pedido=$1', pedID)
+        .then(function (entradas) {
+          Productos = entradas;
+          // console.log(Productos);
+          for (var i = 0; i < entradas.length; i++) {
+            console.log(Productos[i].prod);
+            entradas[i].prod = db.one('SELECT Nombre, Precio from Productos where ID_Producto=$1', Productos[i].prod)
+              .then(function (producto) {
+                // data['Prods'] = entradas;
+                res.status(200)
+
+              })
+              .catch(function (err) {
+                return next(err);
+              });
+          }
+          data['Prods'] = entradas
+          res.status(200)
+            .json({
+              data
+            });
+        })
+        .catch(function (err) {
+          return next(err);
         });
-      /* jshint ignore:end */
     })
     .catch(function (err) {
       return next(err);

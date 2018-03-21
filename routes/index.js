@@ -16,6 +16,6 @@ router.put('/usuarios/:id', db.updateUsuario);
 router.delete('usuarios/:id', db.removeUsuario);
 
 router.get('/usuarios/:id/pedidos', db.getAllPedidos);
-router.get('/usuarios/:id/pedidos/:id', db.getSinglePedido);
+router.get('/usuarios/:idusr/pedidos/:idped', db.getSinglePedido);
 
 module.exports = router;
