@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../queriesProductos');
-var db2 = require('../queriesUsuarios');
-
+var db = require('../queries');
 
 router.get('/productos', db.getAllProductos);
 router.get('/productos/:id', db.getSingleProducto);
@@ -11,11 +9,13 @@ router.post('/productos', db.createProducto);
 router.put('/productos/:id', db.updateProducto);
 router.delete('productos/:id', db.removeProducto);
 
-router.get('/usuarios', db2.getAllUsuarios);
-router.get('/usuarios/:id', db2.getSingleUsuario);
-router.post('/usuarios', db2.createUsuario);
-router.put('/usuarios/:id', db2.updateUsuario);
-router.delete('usuarios/:id', db2.removeUsuario);
+router.get('/usuarios', db.getAllUsuarios);
+router.get('/usuarios/:id', db.getSingleUsuario);
+router.post('/usuarios', db.createUsuario);
+router.put('/usuarios/:id', db.updateUsuario);
+router.delete('usuarios/:id', db.removeUsuario);
 
+router.get('/usuarios/:id/pedidos', db.getAllPedidos);
+router.get('/usuarios/:id/pedidos/:id', db.getSinglePedido);
 
 module.exports = router;
